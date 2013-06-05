@@ -1,0 +1,5 @@
+Net-Jenkins
+===========
+
+Create, run, monitor and delete Jenkins jobs from the comfort of your Perl
+scripts.
