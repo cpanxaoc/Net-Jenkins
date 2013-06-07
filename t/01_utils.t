@@ -5,6 +5,8 @@ use Net::Jenkins::Utils qw(build_job_object build_api_object build_build_object)
 
 my $api = build_api_object 'http://ci.jruby.org/job/jruby-git';
 ok $api;
+ok $api->summary;
+ok $api->jenkins_version;
 
 my $job = build_job_object 'http://ci.jruby.org/job/jruby-git';
 ok $job;

@@ -36,25 +36,41 @@ has user_agent => (
     default => sub { return LWP::UserAgent->new; },
 );
 
+has jenkins_version => (
+    is      => 'rw',
+    isa     => 'Str',
+);
+
 method get_base_url {
     return $self->scheme . '://' . $self->host . ':' . $self->port;
 }
 
+method update_jenkins_version ($response) {
+    $self->jenkins_version( $response->header(q(X-Jenkins)) );
+    return $self->jenkins_version;
+}
+
 method post_url ($uri,%args) {
-    return $self->user_agent->post( $uri , \%args );
+    my $response = $self->user_agent->post( $uri , \%args );
+    $self->update_jenkins_version($response);
+    return $response;
 }
 
 method get_url ($uri) {
-    return $self->user_agent->get($uri);
+    my $response = $self->user_agent->get($uri);
+    $self->update_jenkins_version($response);
+    return $response;
 }
 
 method get_json ( $uri ) {
     my $response = $self->user_agent->get($uri);
+    $self->update_jenkins_version($response);
     return decode_json $response->decoded_content if $response->is_success;
 }
 
 method summary {
     my $uri = $self->get_base_url . '/api/json';
+    # $self->get_json already sets $self->jenkins_version
     return $self->get_json( $uri );
 }
 
