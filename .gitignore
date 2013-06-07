@@ -5,3 +5,5 @@ inc/
 MYMETA.json
 MYMETA.yml
 .DS_Store
+# vim swapfiles
+*.swp
