@@ -31,6 +31,14 @@ has port => (
     default => sub { return $ENV{JENKINS_PORT} ? $ENV{JENKINS_PORT} : 8080; },
 );
 
+has jenkins_path => (
+    is      => 'rw',
+    isa     => 'Str',
+    default => sub {
+        return $ENV{JENKINS_PATH} ? $ENV{JENKINS_PATH} : q();
+    },
+);
+
 has user_agent => (
     is      => 'rw' ,
     default => sub { return LWP::UserAgent->new; },
@@ -42,7 +50,14 @@ has jenkins_version => (
 );
 
 method get_base_url {
-    return $self->scheme . '://' . $self->host . ':' . $self->port;
+    if ( length($self->jenkins_path) > 0 ) {
+        return $self->scheme
+            . '://' . $self->host
+            . ':' . $self->port
+            . '/' . $self->jenkins_path;
+    } else {
+        return $self->scheme . '://' . $self->host . ':' . $self->port;
+    }
 }
 
 method update_jenkins_version ($response) {
