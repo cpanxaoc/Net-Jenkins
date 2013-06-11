@@ -92,6 +92,10 @@ method first_build {
         job => $self) if ($b && %$b);
 }
 
+method next_build_number {
+    return $self->details->{nextBuildNumber};
+}
+
 method to_hashref ($with_details,$with_builds) {
     return {
         name    => $self->name,
@@ -142,7 +146,7 @@ $new_job_name [Str]
 
 Copy from a job.
 
-=head2 enable 
+=head2 enable
 
 Enable this job.
 
@@ -177,5 +181,9 @@ L<Net::Jenkins::Job::Build> Get last build.
 =head2 first_build
 
 L<Net::Jenkins::Job::Build> Get first build.
+
+=head2 next_build_number
+
+Returns an integer number, which is the next Jenkins build ID for this job.
 
 =cut
