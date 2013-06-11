@@ -49,6 +49,11 @@ has jenkins_version => (
     isa     => 'Str',
 );
 
+has request_error => (
+    is      => 'rw',
+    isa     => 'Str',
+);
+
 method get_base_url {
     if ( length($self->jenkins_path) > 0 ) {
         return $self->scheme
@@ -80,7 +85,12 @@ method get_url ($uri) {
 method get_json ( $uri ) {
     my $response = $self->user_agent->get($uri);
     $self->update_jenkins_version($response);
-    return decode_json $response->decoded_content if $response->is_success;
+    if ( $response->is_success ) {
+        return decode_json $response->decoded_content;
+    } else {
+        $self->request_error($response->status_line);
+        return undef;
+    }
 }
 
 method summary {
