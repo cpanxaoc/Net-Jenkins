@@ -23,7 +23,7 @@ method update ($xml) {
 }
 
 method copy ($new_job_name) {
-    return $self->api->copy_job( $new_job_name , $self->name );
+    return $self->api->copy_job( $new_job_name, $self->name );
 }
 
 
@@ -60,23 +60,36 @@ method in_queue {
 }
 
 method queue_item {
-    return Net::Jenkins::Job::QueueItem->new( %{ $self->details->{queueItem} } , api => $self->api , job => $self );
+    return Net::Jenkins::Job::QueueItem->new(
+        %{$self->details->{queueItem}},
+        api => $self->api,
+        job => $self,
+    );
 }
 
 # get builds
 method builds {
-    return map { Net::Jenkins::Job::Build->new( %$_ , api => $self->api, job => $self ) } 
-            $self->api->get_builds( $self->name );
+    return map { Net::Jenkins::Job::Build->new(
+        %$_,
+        api => $self->api,
+        job => $self )
+    } $self->api->get_builds( $self->name );
 }
 
 method last_build {
     my $b = $self->details->{lastBuild};
-    return Net::Jenkins::Job::Build->new( %$b , api => $self->api , job => $self ) if $b && %$b;
+    return Net::Jenkins::Job::Build->new(
+        %$b,
+        api => $self->api,
+        job => $self) if ($b && %$b);
 }
 
 method first_build {
     my $b = $self->details->{firstBuild};
-    return Net::Jenkins::Job::Build->new( %$b , api => $self->api , job => $self ) if $b && %$b;
+    return Net::Jenkins::Job::Build->new(
+        %$b,
+        api => $self->api,
+        job => $self) if ($b && %$b);
 }
 
 method to_hashref ($with_details,$with_builds) {
@@ -86,8 +99,8 @@ method to_hashref ($with_details,$with_builds) {
         url     => $self->url,
         ($with_details) ? ( details => $self->details ) : (),
         ($with_builds)  ? (
-            builds => [ map { 
-                    $_->to_hashref($with_details) 
+            builds => [ map {
+                    $_->to_hashref($with_details)
                 } $self->builds ],
         ) : (),
     };
