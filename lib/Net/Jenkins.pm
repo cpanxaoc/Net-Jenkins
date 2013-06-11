@@ -180,6 +180,11 @@ method build_job ($job_name) {
     return $self->post_url( $uri )->code == 302 ? 1 : 0;
 }
 
+method build_job_with_parameters ($job_name) {
+    my $uri = $self->job_url($job_name) . '/buildWithParameters';
+    return $self->post_url( $uri )->code == 302 ? 1 : 0;
+}
+
 method get_job_details ($job_name) {
     return $self->get_json(
         $self->job_url($job_name) . '/api/json'
