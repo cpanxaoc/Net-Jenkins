@@ -26,7 +26,6 @@ method copy ($new_job_name) {
     return $self->api->copy_job( $new_job_name, $self->name );
 }
 
-
 method enable {
     return $self->api->enable_job($self->name);
 }
@@ -35,12 +34,10 @@ method disable {
     return $self->api->disable_job($self->name);
 }
 
-
 # trigger a build
 method build {
     return $self->api->build_job($self->name);
 }
-
 
 # get job configuration
 method details {
