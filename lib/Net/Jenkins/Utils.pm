@@ -16,9 +16,9 @@ sub build_build_object;
 sub build_api_object ($) {
     my $url = shift;
     my $uri = ref($url) eq 'URI' ? $url : URI->new( $url );
-    return Net::Jenkins->new( 
-        host => $uri->host, 
-        port => $uri->port , 
+    return Net::Jenkins->new(
+        host => $uri->host,
+        port => $uri->port,
         scheme => $uri->scheme );
 }
 
@@ -27,7 +27,7 @@ sub build_build_object ($) {
     my $uri = URI->new( $build_url );
 
     # http://ci.jruby.org/job/jruby-git/4259/api/json
-    my ($job_name,$build_id) = 
+    my ($job_name,$build_id) =
         ($build_url =~ m{/job/([^/]+)/([^/]+)});
 
 
@@ -48,7 +48,7 @@ sub build_job_object ($) {
     my $uri = URI->new($job_url);
     my ($job_name) = ($job_url =~ m{job/([^/]+)});
 
-    my $job = Net::Jenkins::Job->new( 
+    my $job = Net::Jenkins::Job->new(
 
         # XXX: color attribute
         name => $job_name,
