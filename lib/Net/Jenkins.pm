@@ -35,7 +35,7 @@ has jenkins_path => (
     is      => 'rw',
     isa     => 'Str',
     default => sub {
-        return $ENV{JENKINS_PATH} ? $ENV{JENKINS_PATH} : q();
+        return $ENV{JENKINS_PATH} ? $ENV{JENKINS_PATH} : '';
     },
 );
 
@@ -66,7 +66,7 @@ method get_base_url {
 }
 
 method update_jenkins_version ($response) {
-    $self->jenkins_version( $response->header(q(X-Jenkins)) );
+    $self->jenkins_version( $response->header('X-Jenkins') );
     return $self->jenkins_version;
 }
 
