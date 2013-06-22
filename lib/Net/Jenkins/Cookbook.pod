@@ -21,7 +21,7 @@ Version 0.01
     my @views = $jenkins->views;
     my $mode = $jenkins->mode;
 
-    my $xml = read_file 'xt/config.xml';^
+    my $xml = read_file 'xt/config.xml';
     if( $jenkins->create_job( 'Phifty', $xml ) ) {
         $jenkins->copy_job( 'test2' , 'Phifty' );
     }
@@ -64,12 +64,66 @@ For Jenkins hosts that need Basic/Digest/NTLM authentication
 
 =item Retrieving the Jenkins version
 
+    
 =item Retrieving the next Jenkins job number
 
 So when you start a new job, you can check it.  Or is this important now with
 L<Net::Jenkins::Job>?
 
 =back
+
+=head2 Setting the URL scheme, or using a specific path to Jenkins
+
+If you run Jenkins proxied behind another webserver, you'll need do a bit of
+extra work to set up the Jenkins URL;
+
+    my $jenkins = Net::Jenkins->new(
+        # new URL scheme
+        scheme          => q(https),
+        host            => q(www.example.com),
+        # different port
+        port            => q(443),
+        # non-obvious path
+        jenkins_path    => q(/path/to/jenkins),
+
+=head2 Connecting to a password-protected Jenkins instance
+
+=over
+
+=item 1. Create an L<HTTP::Headers> object
+
+=item 2. Set your HTTP authentication credentials in that object
+
+=item 3. Grab the copy of L<LWP::UserAgent> that L<Net::Jenkins> creates
+
+=item 4. Tell that L<LWP::UserAgent> object to use your L<HTTP::Headers>
+
+=item 5. Give the L<LWP::UserAgent> object back to L<Net::Jenkins>
+
+=back
+
+    # reusing the $jenkins object created above...
+    $http_headers = HTTP::Headers->new;
+    $http_headers->authorization_basic( q(faux-user), q(k0mp!ik@ted-p@$$));
+    my $my_user_agent = $jenkins->user_agent;
+    $my_user_agent->default_headers($http_headers);
+    $jenkins->user_agent($my_user_agent);
+
+=head2 Get the version of the Jenkins software running on the server
+
+B<NOTE>: This method currently only works with the L<version of Net::Jenkins
+stored in GitHub|https://github.com/cpanxaoc/Net-Jenkins>
+
+    # Call $jenkins->summary to make a request to the Jenkins server
+    # The Jenkins server version will be in an HTTP header in the reply
+    my $summary = $jenkins->summary();
+
+    # $summary will be undef if the request failed for whatever reason
+    # Best to check for it check for it...
+    if ( defined $summary ) {
+        print q(Jenkins is online... Jenkins version: ) 
+            . $jenkins->jenkins_version;
+    }
 
 =head1 AUTHOR
 
