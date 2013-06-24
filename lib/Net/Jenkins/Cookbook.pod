@@ -70,6 +70,10 @@ For Jenkins hosts that need Basic/Digest/NTLM authentication
 So when you start a new job, you can check it.  Or is this important now with
 L<Net::Jenkins::Job>?
 
+=item Use "build_job_with_parameters" for jobs with parameters
+
+Instead of "build_job"
+
 =back
 
 =head2 Setting the URL scheme, or using a specific path to Jenkins
