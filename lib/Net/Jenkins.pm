@@ -301,7 +301,8 @@ or remote host.  The Jenkins API has some documentation in the
 L<Jenkins Wiki|https://wiki.jenkins-ci.org/display/JENKINS/Remote+access+API>,
 however, the most "up-to-date" documentation on the Jenkins API is bundled
 inside of Jenkins itself, and can be called by appending the string C</api> to
-the end of any URL in Jenkins, like this: B<http://example.com/jenkins/api/>.
+the end of the main Jenkins URL, like this:
+B<http://example.com/jenkins/api/>.
 
 API calls can return XML, JSON or Python output; the default output is XML.
 To return JSON, append C</api/json> to your Jenkins URL, and to return Python,
