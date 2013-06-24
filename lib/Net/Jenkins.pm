@@ -249,7 +249,8 @@ __END__
 
 =head1 NAME
 
-Net::Jenkins -
+Net::Jenkins - Create, run, monitor and delete Jenkins jobs from the comfort
+of your Perl scripts.
 
 =head1 SYNOPSIS
 
@@ -260,7 +261,7 @@ Net::Jenkins -
     my @views = $jenkins->views;
     my $mode = $jenkins->mode;
 
-    my $xml = read_file 'xt/config.xml'; 
+    my $xml = read_file 'xt/config.xml';
     if( $jenkins->create_job( 'Phifty', $xml ) ) {
         $jenkins->copy_job( 'test2' , 'Phifty' );
     }
@@ -293,15 +294,25 @@ Net::Jenkins -
     }
     $jenkins->restart;  # returns true if success
 
-
-
 =head1 DESCRIPTION
 
-Net::Jenkins is
+Net::Jenkins allows you to interact with a Jenkins instance running on a local
+or remote host.  The Jenkins API has some documentation in the
+L<Jenkins Wiki|https://wiki.jenkins-ci.org/display/JENKINS/Remote+access+API>,
+however, the most "up-to-date" documentation on the Jenkins API is bundled
+inside of Jenkins itself, and can be called by appending the string C</api> to
+the end of any URL in Jenkins, like this: B<http://example.com/jenkins/api/>.
+
+API calls can return XML, JSON or Python output; the default output is XML.
+To return JSON, append C</api/json> to your Jenkins URL, and to return Python,
+append C</api/python>.  All API output returned can be "prettified" by passing
+C<pretty=true> as an argument, like this:
+B<http://example.com/jenkins/api/json?pretty=true>.
 
 =head1 AUTHOR
 
-Yo-An Lin E<lt>cornelius.howl {at} gmail.comE<gt>
+Yo-An Lin E<lt>cornelius.howl {at} gmail.comE<gt>.  Documentation added by
+Brian Manning E<lt>cpan at xaoc dot orgE<gt>.
 
 =head1 SEE ALSO
 
