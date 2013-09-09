@@ -90,7 +90,15 @@ method first_build {
 }
 
 method next_build_number {
-    return $self->details->{nextBuildNumber};
+    my $job_details = $self->details();
+    # check that job_details is defined; if not, return undef so that the
+    # caller (hopefully) checks '$jenkins->request_error' to find out what the
+    # problem is
+    if ( defined $job_details ) {
+        return $self->details->{nextBuildNumber};
+    } else {
+        return undef;
+    }
 }
 
 method to_hashref ($with_details,$with_builds) {
