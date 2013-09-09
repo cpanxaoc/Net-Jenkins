@@ -13,6 +13,7 @@ inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 inc/Pod/Markdown.pm
 lib/Net/Jenkins.pm
+lib/Net/Jenkins/Cookbook.pod
 lib/Net/Jenkins/Job.pm
 lib/Net/Jenkins/Job/Build.pm
 lib/Net/Jenkins/Utils.pm
