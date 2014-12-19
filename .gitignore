@@ -4,6 +4,7 @@ Makefile
 inc/
 MYMETA.json
 MYMETA.yml
+META.yml
 .DS_Store
 # vim swapfiles
 *.swp
