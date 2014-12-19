@@ -7,3 +7,5 @@ MYMETA.yml
 .DS_Store
 # vim swapfiles
 *.swp
+README.mkdn
+pm_to_blib
